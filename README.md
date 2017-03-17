@@ -18,7 +18,7 @@ Usage
 A simple example of generating a single random ``uint8``:
 ```py
 def handle_random_int(f):
-	print(f.result())
+    print(f.result())
 
 f = asyncrandom.fetch()
 f.add_done_callback(handle_random_int)
@@ -28,7 +28,7 @@ tornado.ioloop.IOLoop.current().start()
 Multiple numbers can be generated as well. In this example we generate 10:
 ```py
 def handle_random_int(f):
-	print(f.result())
+    print(f.result())
 
 f = asyncrandom.fetch(10)
 f.add_done_callback(handle_random_int)
@@ -39,7 +39,7 @@ By default, 8-bit unsigned integers are generated. Optionally, this can be
 changed to 16-bit. Example of generating 10 16-bit integers:
 ```py
 def handle_random_int(f):
-	print(f.result())
+    print(f.result())
 
 f = asyncrandom.fetch(10, asyncrandom.IntegerType.UINT16)
 f.add_done_callback(handle_random_int)

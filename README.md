@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/YavorPaunov/asyncrandom.svg?branch=master)](https://travis-ci.org/YavorPaunov/asyncrandom)
+
 Asyncrandom
 ===========
 
@@ -14,40 +16,42 @@ Usage
 -----
 
 A simple example of generating a single random ``uint8``:
+```py
+def handle_random_int(f):
+	print(f.result())
 
-    def handle_random_int(f):
-        print(f.result())
+f = asyncrandom.fetch()
+f.add_done_callback(handle_random_int)
 
-    f = asyncrandom.fetch()
-    f.add_done_callback(handle_random_int)
-
-    tornado.ioloop.IOLoop.current().start()
-
+tornado.ioloop.IOLoop.current().start()
+```
 Multiple numbers can be generated as well. In this example we generate 10:
+```py
+def handle_random_int(f):
+	print(f.result())
 
-    def handle_random_int(f):
-        print(f.result())
+f = asyncrandom.fetch(10)
+f.add_done_callback(handle_random_int)
 
-    f = asyncrandom.fetch(10)
-    f.add_done_callback(handle_random_int)
-
-    tornado.ioloop.IOLoop.current().start()
-
-By default 8-bit unsigned integers are generated. Optionally, this can be
+tornado.ioloop.IOLoop.current().start()
+```
+By default, 8-bit unsigned integers are generated. Optionally, this can be
 changed to 16-bit. Example of generating 10 16-bit integers:
+```py
+def handle_random_int(f):
+	print(f.result())
 
-    def handle_random_int(f):
-        print(f.result())
+f = asyncrandom.fetch(10, asyncrandom.IntegerType.UINT16)
+f.add_done_callback(handle_random_int)
 
-    f = asyncrandom.fetch(10, asyncrandom.IntegerType.UINT16)
-    f.add_done_callback(handle_random_int)
+tornado.ioloop.IOLoop.current().start()
+```
 
-    tornado.ioloop.IOLoop.current().start()
-
-
-If called from the command issues a request with ``length`` set to 1, and ``type`` set to ``"uint8"``, printing a single random int with a max value of 255. In this case, the call is synchronous.
+If called from the command, issues a synchronous call to the service. Optionally, ``--length`` and ``--type`` can be specified as arguments, with default values of ``1`` and ``"uint-8"`` respectively. 
 
 Command line example:
-        $ asyncrandom --int-type=uint8 --length=1
-        105
 
+```sh
+$ asyncrandom --int-type=uint8 --length=1
+105
+```

@@ -45,10 +45,9 @@ changed to 16-bit. Example of generating 10 16-bit integers:
     tornado.ioloop.IOLoop.current().start()
 
 
-If called from the command issues a request with ``length`` set to 1, and
-``type`` set to ``"uint8"``, printing a single random int with a max value of 255. In this case, the call is synchronous.
+If called from the command issues a request with ``length`` set to 1, and ``type`` set to ``"uint8"``, printing a single random int with a max value of 255. In this case, the call is synchronous.
 
 Command line example:
-    $ asyncrandom --int-type=uint8 --length=1
-    105
+        $ asyncrandom --int-type=uint8 --length=1
+        105
 

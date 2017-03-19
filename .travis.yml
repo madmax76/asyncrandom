@@ -1,11 +1,18 @@
 language: python
 python:
-    - "2.7"
-    - "3.3"
-    - "3.4"
-    - "3.5"
-    - "3.6"
-install: 
-    - pip install -r dev_requirements.txt
-script: 
-    - nosetests
+- '2.7'
+- '3.3'
+- '3.4'
+- '3.5'
+- '3.6'
+install:
+- pip install -r dev_requirements.txt
+script:
+- nosetests
+deploy:
+  provider: pypi
+  server: https://testpypi.python.org/pypi
+  user: Yavor.Paunov
+  password:
+    secure: ybkH5Sn4ZB/ZBQUdU9OFEEngKXPpE3VVKrpIKrYg7DShu2KiFica8r/LOFfZDzkwWjCyPFbnC/2BXcy86MV/3n6gMcRRsvNfijKuMz5UppGN82sP2NwLHUwgTkNAKFelNB2HXEqwaQvRhpB3feRCWpxjaATnm+9WsnRiUDv9aizVMfmCEwVic4EmpFSE+5tPV3qQ0ojutfyakUUZziQFQHK05Qnag4vFm2TGnEKLXXWPAkI3xRsSI7u2UOBTqY5MN7VS5w1DXcnW9vkM5GD/hPk65cZXeN/1Ou7Uxc3VJp9MKWqsjsM9t3/Zo9WvbWK1IICtfZ3jx4g6Q0mUc9Kip3+RojZGKJ2TB52sHb89jK7PXapySbrWj5uOOqF93CkZdS5pW9Cf1McHmNGL0E4JXr5+AC2iqaMWjl0odJ5XZg37PSfQ74oOCoUr4yjEhLheNdrZZHF5gs1PxBordjITCb/bNa9+QCngBeuUqnLH2RyD+gkGTfUFZ1xGMfD0vyOcyK+0NAnacEMi9WmVTkw3gt7yrq3xKMiR/EHMy5VV8JlHq9Wb0bfKuhlRiLiOIZPZxczbOlqsIQVFs89ZyMhNY79V8iAcHO6jLx0FDOJEsYF4hYxVjvJ54w/qVqESdtcd3im7t/wVGTGZdLxSNMyQY2nn12cmqBmNt+Pp+hsSQpc=
+  distributions: "sdist bdist_wheel"

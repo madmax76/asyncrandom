@@ -28,7 +28,7 @@ A simple example of generating a single random ``uint8``::
     f = asyncrandom.fetch()
     f.add_done_callback(handle_random_int)
 
-    tornado.ioloop.IOLoop.current()
+    tornado.ioloop.IOLoop.current().start()
 
 Multiple numbers can be generated as well. In this example we generate 10::
 
@@ -48,7 +48,7 @@ By default, 8-bit unsigned integers are generated. Optionally, this can be chang
     f = asyncrandom.fetch(10, asyncrandom.IntegerType.UINT16)
     f.add_done_callback(handle_random_int)
     
-    tornado.ioloop.IOLoop.current()
+    tornado.ioloop.IOLoop.current().start()
 
 If called from the command, issues a synchronous call to the service. Optionally, ``--length`` and ``--type`` can be specified as arguments, with default values of ``1`` and ``"uint-8"`` respectively. 
 

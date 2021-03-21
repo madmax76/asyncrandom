@@ -50,11 +50,22 @@ By default, 8-bit unsigned integers are generated. Optionally, this can be chang
     
     tornado.ioloop.IOLoop.current().start()
 
-If called from the command, issues a synchronous call to the service. Optionally, ``--length`` and ``--type`` can be specified as arguments, with default values of ``1`` and ``"uint-8"`` respectively. 
+
+The size of the number to be generated can be specified. In this example we generate a HEX-16 number with a size of 512::
+
+    def handle_random_int(f):
+        print(f.result())
+    
+    f = asyncrandom.fetch(1, asyncrandom.IntegerType.HEX16, 512)
+    f.add_done_callback(handle_random_int)
+    
+    tornado.ioloop.IOLoop.current().start()
+
+If called from the command, issues a synchronous call to the service. Optionally, ``--length``, ``--size`` and ``--type`` can be specified as arguments, with default values of ``1`` and ``"uint-8"`` respectively. 
 
 
 Command line example::
 
-    $ asyncrandom --int-type=uint8 --length=1
-    105
+    $ asyncrandom --int-type=hex16 --length=1 --size=32
+    94057bbadaa28fb066da8b1df1fb1306bbd55551f7bb631ff3b527b6a83f1856
 

@@ -56,6 +56,7 @@ Tested on Python versions:
     -3.4
     -3.5
     -3.6
+    -3.9
 
 """
 import argparse
@@ -75,10 +76,11 @@ URL = "https://qrng.anu.edu.au/API/jsonI.php"
 class IntegerType(Enum):
     UINT8 = "uint8"
     UINT16 = "uint16"
+    HEX16 = "hex16"
 
 
 @gen.coroutine
-def fetch(length=1, int_type=IntegerType.UINT8):
+def fetch(length=1, int_type=IntegerType.UINT8, size=1):
     """Asynchronously generate one or more random numbers.
 
     Executes a GET request on https://qrng.anu.edu.au/API/jsonI.php with the
@@ -92,6 +94,7 @@ def fetch(length=1, int_type=IntegerType.UINT8):
             generate. Possible options are ``"uint8"`` value of 255) or
             ``"uint16"`` (max value of 65,535).
             Corresponds to the ``type`` query argument for the HTTP request.
+        size (int): The number of blocks generated in each random number
 
     Returns:
         tornado.concurrent.Future: a Future whose result is the randomly
@@ -102,7 +105,7 @@ def fetch(length=1, int_type=IntegerType.UINT8):
         tornado.httpclient.HTTPError: raised in case of a non-200 status code in
             the HTTP response
 
-        TypeError: in case ``length`` or ``int_type`` are of the wrong type
+        TypeError: in case ``length``,  ``int_type`` or ``size`` are of the wrong type
 
         ValueError: in case the HTTP response body contains
             ``{"sucess": false}``
@@ -111,10 +114,14 @@ def fetch(length=1, int_type=IntegerType.UINT8):
         raise TypeError("int_type must be a asyncrandom.IntegerType")
 
     if not isinstance(length, int) or length <= 0:
-        raise TypeError("length must be a positive non-zero int")
+        raise TypeError("length must be a positive non-zero integer")
+
+    if not isinstance(size,  int) or length <= 0:
+        raise TypeError("size must be a positive non-zero integer")
 
     client = httpclient.AsyncHTTPClient()
-    url = URL + "?length={}&type={}".format(length, int_type.value)
+
+    url = URL + "?length={}&type={}&size={}".format(length, int_type.value, size)
     response = yield client.fetch(url)
 
     if response.error:
@@ -138,14 +145,19 @@ def main():
                         type=int,
                         default=1,
                         metavar='N',
-                        help="how many numbers to generate")
+                        help="how many numbers to generate, (1-1024)")
     parser.add_argument("--int-type",
                         type=IntegerType,
                         default=IntegerType.UINT8,
-                        help="the type of numbers to generate, uint8 or uint16")
+                        help="the type of numbers to generate, uint8, uint16 or hex16")
+    parser.add_argument("--size",
+                        type=int,
+                        default=1,
+                        metavar='N',
+                        help="the blocksize of each numbers to generate, (1-1024)")
     args = parser.parse_args()
     value = ioloop.IOLoop.current().run_sync(
-        lambda: fetch(args.length, args.int_type))
+        lambda: fetch(args.length, args.int_type, args.size))
 
     if isinstance(value, list):
         print(" ".join(map(str, value)))
